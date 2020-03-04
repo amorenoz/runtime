@@ -159,3 +159,6 @@ func (q *qemuPPC64le) appendImage(devices []govmmQemu.Device, path string) ([]go
 func (q *qemuPPC64le) appendBridges(devices []govmmQemu.Device) []govmmQemu.Device {
 	return genericAppendBridges(devices, q.Bridges, q.machineType)
 }
+func (q *qemuPPC64le) appendIOMMU(devices []govmmQemu.Device) []govmmQemu.Device {
+	return devices
+}

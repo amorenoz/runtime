@@ -270,3 +270,6 @@ func (q *qemuS390x) appendVSock(devices []govmmQemu.Device, vsock types.VSock) (
 	return devices, nil
 
 }
+func (q *qemuS390x) appendIOMMU(devices []govmmQemu.Device) []govmmQemu.Device {
+	return devices
+}

@@ -120,6 +120,9 @@ type qemuArch interface {
 
 	// setIgnoreSharedMemoryMigrationCaps set bypass-shared-memory capability for migration
 	setIgnoreSharedMemoryMigrationCaps(context.Context, *govmmQemu.QMP) error
+
+	// setup IOMMU
+	appendIOMMU(devices []govmmQemu.Device) []govmmQemu.Device
 }
 
 type qemuArchBase struct {

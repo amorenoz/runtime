@@ -28,7 +28,7 @@ const defaultQemuMachineType = QemuPC
 
 const qemuNvdimmOption = "nvdimm"
 
-const defaultQemuMachineOptions = "accel=kvm,kernel_irqchip"
+const defaultQemuMachineOptions = "accel=kvm,kernel_irqchip=split" // FIXME
 
 const qmpMigrationWaitTimeout = 5 * time.Second
 
@@ -52,7 +52,8 @@ var kernelParams = []Param{
 	{"reboot", "k"},
 	{"console", "hvc0"},
 	{"console", "hvc1"},
-	{"iommu", "off"},
+	{"intel_iommu", "on"}, // todo make it configurable
+	{"iommu", "pt"},       // todo make it configurable
 	{"cryptomgr.notests", ""},
 	{"net.ifnames", "0"},
 	{"pci", "lastbus=0"},
@@ -187,4 +188,15 @@ func (q *qemuAmd64) appendImage(devices []govmmQemu.Device, path string) ([]govm
 // appendBridges appends to devices the given bridges
 func (q *qemuAmd64) appendBridges(devices []govmmQemu.Device) []govmmQemu.Device {
 	return genericAppendBridges(devices, q.Bridges, q.machineType)
+}
+
+func (q *qemuAmd64) appendIOMMU(devices []govmmQemu.Device) []govmmQemu.Device {
+	iommu := govmmQemu.IommuDev{
+		Intremap:    true,
+		DeviceIotlb: true,
+		Caching:     true,
+	}
+
+	devices = append(devices, iommu)
+	return devices
 }

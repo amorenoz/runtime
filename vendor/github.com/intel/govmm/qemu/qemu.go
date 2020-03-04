@@ -1288,6 +1288,42 @@ func (b BalloonDevice) Valid() bool {
 	return b.ID != ""
 }
 
+type IommuDev struct {
+	Intremap    bool
+	DeviceIotlb bool
+	Caching     bool
+}
+
+func (dev IommuDev) Valid() bool {
+	return true
+}
+
+func (dev IommuDev) QemuParams(_ *Config) []string {
+	var qemuParams []string
+	var deviceParams []string
+
+	deviceParams = append(deviceParams, "intel-iommu")
+	if dev.Intremap {
+		deviceParams = append(deviceParams, "intremap=on")
+	} else {
+		deviceParams = append(deviceParams, "intremap=off")
+	}
+
+	if dev.DeviceIotlb {
+		deviceParams = append(deviceParams, "device-iotlb=on")
+	} else {
+		deviceParams = append(deviceParams, "device-iotlb=off")
+	}
+
+	if dev.Caching {
+		deviceParams = append(deviceParams, "caching-mode=on")
+	}
+
+	qemuParams = append(qemuParams, "-device")
+	qemuParams = append(qemuParams, strings.Join(deviceParams, ","))
+	return qemuParams
+}
+
 // RTCBaseType is the qemu RTC base time type.
 type RTCBaseType string
 
