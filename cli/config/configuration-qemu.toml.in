@@ -173,6 +173,12 @@ enable_iothreads = @DEFENABLEIOTHREADS@
 # result in memory pre allocation
 #enable_hugepages = true
 
+# Enable vIOMMU, default false
+# Enabling this will result in the VM having a vIOMMU device
+# This will also add the following options to the kernel's
+# command line: intel_iommu=on,iommu=pt
+#enable_iommu = true
+
 # Enable file based guest memory support. The default is an empty string which
 # will disable this feature. In the case of virtio-fs, this is enabled
 # automatically and '/dev/shm' is used as the backing folder.

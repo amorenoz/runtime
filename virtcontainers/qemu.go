@@ -417,8 +417,9 @@ func (q *qemu) buildDevices(initrdPath string) ([]govmmQemu.Device, *govmmQemu.I
 		}
 	}
 
-	// TODO: if q.config.iommu  add config to appendIOMMU ... {
-	devices = q.arch.appendIOMMU(devices)
+	if q.config.IOMMU {
+		devices = q.arch.appendIOMMU(devices)
+	}
 
 	var ioThread *govmmQemu.IOThread
 	if q.config.BlockDeviceDriver == config.VirtioSCSI {

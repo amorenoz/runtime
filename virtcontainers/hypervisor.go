@@ -334,6 +334,9 @@ type HypervisorConfig struct {
 	// HugePages specifies if the memory should be pre-allocated from huge pages
 	HugePages bool
 
+	// HugePages specifies if the memory should be pre-allocated from huge pages
+	IOMMU bool
+
 	// File based memory backend root directory
 	FileBackedMemRootDir string
 

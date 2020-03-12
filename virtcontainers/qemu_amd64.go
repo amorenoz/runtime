@@ -52,8 +52,6 @@ var kernelParams = []Param{
 	{"reboot", "k"},
 	{"console", "hvc0"},
 	{"console", "hvc1"},
-	{"intel_iommu", "on"}, // todo make it configurable
-	{"iommu", "pt"},       // todo make it configurable
 	{"cryptomgr.notests", ""},
 	{"net.ifnames", "0"},
 	{"pci", "lastbus=0"},
@@ -105,6 +103,13 @@ func newQemuArch(config HypervisorConfig) qemuArch {
 			kernelParams:          kernelParams,
 		},
 		vmFactory: factory,
+	}
+
+	if config.IOMMU {
+		q.qemuArchBase.kernelParams = append(q.qemuArchBase.kernelParams,
+			Param{"intel_iommu", "on"})
+		q.qemuArchBase.kernelParams = append(q.qemuArchBase.kernelParams,
+			Param{"iommu", "pt"})
 	}
 
 	if config.ImagePath != "" {
